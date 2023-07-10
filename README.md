@@ -14,15 +14,19 @@ ggplot(data=typical and aes(x=A)))
 ### *Activity 4* 
 Histograms with color and fill as well as labels and scaling axes.
 ``` R
-labs(x='Number of text messages sent and received per day') + scale_x_continuous(breaks=seq(0,400,25)) # X axis goes from 0 to 400 in intervals of 25
+labs(x='Number of text messages sent and received per day') +
+scale_x_continuous(breaks=seq(0,400,25)) # X axis goes from 0 to 400 in intervals of 25
 ```
 Finding and making lines for the mean and median of a dataset 
 ``` R
-geom_vline(aes(xintercept=mean(tech_csv$number_text),color='red')) + geom_vline(aes(xintercept=median(tech_csv$number_text),color='blue')) # Define Intercept
+geom_vline(aes(xintercept=mean(tech_csv$number_text),color='red')) +
+geom_vline(aes(xintercept=median(tech_csv$number_text),color='blue')) # Define Intercept
 ```
 Adding a categorical variable 
 ``` R
-ggplot(data=tech_csv,aes(x=number_text, fill=preference)) + geom_histogram(binwidth=25, position='identity', alpha=0.5) # Key is position='identity' and fill=column. This STACKS the histograms
+ggplot(data=tech_csv,aes(x=number_text, fill=preference)) +
+geom_histogram(binwidth=25, position='identity', alpha=0.5)
+# Key is position='identity' and fill=column. This STACKS the histograms
 ```
 Versus splitting the graphs into separate rows for each category
 ``` R
@@ -44,7 +48,8 @@ ggplot(data=poll_award_csv, aes(x=award, fill=sex)) + geom_bar() + labs(x='Favor
 ```
 Scaling axes to an interval and showing proportions 
 ``` R
-ggplot(data=poll_award_csv, aes(x=award, fill=sex)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.6) + labs(x='Favorite Award', y='Proportion')
+ggplot(data=poll_award_csv, aes(x=award, fill=sex)) +
+geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.6) + labs(x='Favorite Award', y='Proportion')
 ```
 Instead of stacking them, put bars side by side
 ``` R
