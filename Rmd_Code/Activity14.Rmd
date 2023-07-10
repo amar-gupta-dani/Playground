@@ -1,0 +1,51 @@
+---
+title: "Activity 14"
+author: "Amar Dani"
+date: "11/1/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+1. Episode #
+2. IMDb Rating
+3. Trend of episode rating in a season. The aesthetic is a line and the line varies with IMDb rating and season
+4. An episode of the show, 60 or 61 episodes.
+```{r}
+billions <- read_csv("/Users/sandeep/Downloads/R\ Code/IMDb_Billions.csv")
+```
+```{r}
+ggplot(data=billions, aes(x=episode_number, y=rating, color=Season)) + geom_point()
+```
+```{r}
+ggplot(data=billions, aes(x=episode_number, y=rating, group=factor(Season) ,color=factor(Season))) + geom_point()
+```
+```{r}
+ggplot(data=billions, aes(x=episode_number, y=rating, group=factor(Season) ,color=factor(Season))) + geom_point() + scale_color_manual(values=c('yellow3','orchid','forestgreen','orange2','blue'))
+```
+```{r}
+ggplot(data=billions, aes(x=episode_number, y=rating, group=factor(Season) ,color=factor(Season))) + geom_point() + scale_color_manual(values=c('yellow3','orchid','forestgreen','orange2','blue')) + geom_smooth(method=lm,se=FALSE)
+```
+```{r}
+ggplot(
+  data=billions, 
+  aes(x=episode_number, y=rating, group=factor(Season) ,color=factor(Season))
+  ) + geom_point() + 
+  scale_color_manual(
+    values=c('yellow3','orchid','forestgreen','orange2','blue')) +    geom_smooth(method=lm,se=FALSE) + theme_solarized(light=FALSE) +
+  labs(
+    title='Billions',
+    subtitle = 'IMDb ratings of Episodes in Billions sorted by Season',
+    x = 'Episode Number',
+    y = 'IMDb Rating',
+    color=''
+  ) + 
+  theme(
+    plot.title = element_text(color='white',size=20, face='bold'),
+    plot.subtitle = element_text(color='white',size=12),
+    axis.title.x = element_text(color='white',size=10),
+    axis.title.y = element_text(color='white',size=10)
+  ) + guides(color='none')
+```
+

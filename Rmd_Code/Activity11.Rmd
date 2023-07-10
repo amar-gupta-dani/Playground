@@ -1,0 +1,70 @@
+---
+title: "Activity 11"
+author: "Amar Dani"
+date: "10/20/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+
+```{r}
+peaks <- read_csv("/Users/sandeep/Downloads/R\ Code/HighPeaks.csv")
+```
+1. A difficulty of 1 would indicate an easy hike. 
+```{r}
+ggplot(data=peaks, aes(x=Difficulty)) + geom_histogram(color='blue',fill='black') + labs(x='Difficult of Peaks', y='Number of Peaks', title='Difficulties of the 46 Peaks at Adirondack Mountains') 
+```
+3. The majority of the peaks are very difficult. It is skewed to left, asymmetrical, and unimodal. The typical difficulty of a peak is a 5.
+4. Likely all 4 play a role in difficulty. The one that may make the most impact is the ascent and length. If there is a steep ascent and a short length, the grade of the hike will make it difficult.
+5. I don't think there are any variables that are not related to each other. They all can effect each other in some way.
+```{r}
+ggplot(data=peaks, aes(x=Time, y=Difficulty)) + geom_point()
+```
+7. The shortest hikes are considered less difficult. The hardest hikes are typically between the lengths of 12 to 16.
+8. There is a clear positive, linear trend which demonstrates that an increase in time means the hike is more difficult.
+9. Mountains that take more time to climb have a higher difficulty rating.
+10. Yes, I think there is a significant correlation between the length and the difficult of the hike. You cannot say, with certainty, the difficulty of the hike solely with the time, but it is a good indicator.
+```{r}
+ggplot(data=peaks, aes(x=Elevation,y=Difficulty)) + geom_point()
+```
+12. There is a significant amount of variability. Difficulties such as 5 have elevations ranging from 4000 to 5500. The lower difficulties such as 2 and 3 have higher elevations than that of some peaks in 6 and 7. If there were a correlation between elevation and difficulty, there would be a line either with a positive slope or negative slop. Whereas, the scatterplot is all over the place.
+
+13. Many of the points don't fall onto a line. The points are scattered all over thus we cannot conclude anything about the correlation between elevation and difficulty.
+
+```{r}
+ggplot(data=peaks, aes(x=Length, y=Difficulty)) + geom_point()
+```
+15. It seems that the points adhere to a line of positive slope. However, there are exclusions, especially for 4,5,6. Since these are exclusions from the norm, we can there is a weaker correlation.
+
+16. Length seems to be a more important factor than the likes of elevation. We can see a clearer, positive trend which would indicate that an increase of length would lead to an increase in difficulty. The lengths of difficulty 7 are the longest while 2 and 3 have the shortest hikes.
+
+```{r}
+ggplot(data=peaks, aes(x=Length, y=Difficulty, color=Time)) + geom_point() + scale_color_gradient(low='green', high="red")
+```
+18. Used green for low and red for high instead.
+
+19. Yes, both Time and Length seem to effect Difficulty. The red and orange most dots are in the upper-right quadrant, which suggest that longer hikes are more difficult. The hardest hikes are further to the right, which means longer hikes are also more difficult.
+
+20. Ascent seems to have weaker correlation with difficulty. Some points in the 4s, 5s, and 6s are dark blue. There are also some orange points in those same difficulties. There are more dark points as you go up which indicates a correlation, but the orange interspersed suggests a weak correlation.
+
+```{r}
+ggplot(data=peaks, aes(x=Length, y=Difficulty, color=Time)) + 
+  geom_point() + 
+  labs(
+    x = 'Length',
+    y = 'Difficulty',
+    title = 'Adirondack High Peaks',
+    caption = 'http://www.adirondack.net/tour/hike/highpeaks.cfm'
+  ) + 
+  scale_color_gradient(low='darkblue', high="skyblue")+
+  theme_bw() + 
+  theme(plot.title=element_text(face='bold',size=18))
+```
+```{r}
+ggplot(data=peaks, aes(x=Length, y=Difficulty, color=Time))+geom_point() + labs(title = 'Adirondack High Peaks',caption = 'Source: http://www.adirondack.net/tour/hike/highpeaks.cfm') + scale_color_gradient(low='darkblue', high="skyblue") + theme_pander() + theme(plot.title=element_text(face='bold',color='green4',size=18), plot.caption = element_text(face='bold.italic',size=8,hjust=0),axis.title.x = element_text(face='bold',size=14),axis.title.y=element_text(face="bold.italic", size=14),panel.border = element_rect(color='darkgreen', fill=NA))
+```
+
+
+

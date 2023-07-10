@@ -1,0 +1,35 @@
+---
+title: "Activity 07"
+author: "Amar Dani"
+date: "10/4/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+```{r}
+midus <- read_csv("/Users/sandeep/Downloads/R\ Code/midus.csv")
+music_poll <- read_csv("/Users/sandeep/Downloads/R\ Code/poll_os_music.csv")
+```
+A single survey response with the OS of their phone and the music streaming service they use.
+```{r}
+ggplot(data=music_poll, aes(x=Music)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.5) + labs(x='Streaming Service', y='Proportions')
+```
+```{r, fig.width=10}
+ggplot(data=music_poll, aes(x=Music, fill=OS)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.5) + labs(x='Streaming Service', y='Proportions') + theme(axis.text.x = element_text(size=7.5))
+```
+Apple Music is only on iOS. For Do not use any and Google Play, none of those surveyed said they also use Android. For the streaming services which have an Android user, the proportion is far less than iOS, however, this likely due to the sample of the survey.
+```{r, fig.width=10}
+ggplot(data=music_poll, aes(x=Music, fill=OS)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.5) + labs(x='Streaming Service', y='Proportions') + theme(axis.text.x = element_text(size=7.5)) + scale_fill_manual(values = c("burlywood2", "slategrey"), name='Phone OS')
+```
+
+```{r, fig.width=10}
+ggplot(data=music_poll, aes(x=Music, fill=OS)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.5) + labs(x='Streaming Service', y='Proportions') + theme(axis.text.x = element_text(size=7.5)) + scale_fill_manual(values = c("#FFCC33", "#7A0019"), name='Phone OS')
+```
+
+```{r}
+ggplot(filter(midus, !is.na(mhealth), !is.na(phealth)), aes(x=mhealth,fill=phealth)) + geom_bar(aes(y=(..count..)/sum(..count..)), position='dodge') + labs(x='Mental Health', y='Proportion') + ylim(0,0.3) + scale_fill_manual(values=c('#FCBA03','#03A309','#FF8E38','#68AFFC','#0459BA'), name='Physical Health')
+
+```
+It was most common to have correlating physical health to your mental health. If your mental health is excellent, your physical health is likely to be excellent or very good. Fortuneately, the vast majority of those who participated had very good or excellent mental health, as well as excellent or very good physical health. There are very few people with poor mental or phyiscal health.

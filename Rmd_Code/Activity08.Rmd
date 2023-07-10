@@ -1,0 +1,34 @@
+---
+title: "Activity 08"
+author: "Amar Dani"
+date: "10/6/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+```
+```{r}
+phone <- read_csv("/Users/sandeep/Downloads/R\ Code/phone-by-sex.csv")
+```
+```{r}
+head(phone)
+ggplot(data=phone, aes(x=Sex)) + geom_bar()
+```
+
+```{r}
+ggplot(data=phone, aes(x=Sex, y=Count))+ geom_bar(stat='identity')
+```
+```{r}
+ggplot(data=phone, aes(x=Sex, y=Count, fill=Phone))+ geom_bar(stat="identity", position="dodge") + scale_fill_manual(values=c('#02A9F7', '#01303F'))
+```
+```{r}
+vgifts <- read_csv("/Users/sandeep/Downloads/R\ Code/valentines-gifts.csv")
+```
+```{r, fig.width=10}
+ggplot(data=vgifts, aes(x=Gift,y=Percent, fill=Year)) + geom_bar(stat='identity', position='dodge') + scale_fill_manual(values=c('#CE4441','#65015D','#FF7BD3')) + labs(x='Valentine Day Gift', y='Percentage of people giving the gift') + theme(axis.text.x = element_text(angle=60,vjust=0.5,size=12))
+```
+a. The features which stand out in the bar graph are the differences between different types of gifts. It is much clearer to see the difference between candy and clothing in the bar graph. I find that it is easier to find a specific data value such as the percentage of people who gave candy in 2015. It is also more aesthetically pleasing in my opinion.
+
+b. The features of the line plot which stand out the most are the differences YoY within a gift group. It also illustrates the different popularities of gifts and the groups of gifts. There are quite a few lines so it does make the line plot a little hard to read.
+
+c. I would choose the bar graph if aesthetics were more important and to make it easy to find certain values. To illustrate trends and the change between years, I would choose the line plot. 

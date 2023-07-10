@@ -1,0 +1,155 @@
+---
+title: "Activity 22"
+author: "Amar Dani"
+date: "12/01/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(maps)
+library(dplyr)
+library(treemapify)
+```
+```{r}
+world_beer_ex_imp <- read.csv("/Users/sandeep/Downloads/R\ Code/world-beer-export-import.csv")
+vermont_brew <- read.csv("/Users/sandeep/Downloads/R\ Code/vermont-brewery.csv")
+brew_capita <- read.csv("/Users/sandeep/Downloads/R\ Code/breweries-capita.csv")
+brew_year <- read.csv("/Users/sandeep/Downloads/R\ Code/brewery-year.csv")
+```
+```{r}
+head(world_beer_ex_imp)
+```
+```{r}
+ggplot(data = world_beer_ex_imp, aes(area = import_share, fill = region, subgroup = region, label = country, subgroup2 = country)) + 
+  geom_treemap() +
+  geom_treemap_text(fontface = 'italic', color = 'white', grow = TRUE) + 
+  guides(fill='none') + 
+  labs(
+    title = 'Share of Global Beer Imports',
+    caption = 'ATLAS of Economic Complexity (2017)'
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold.italic',size=20),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0)
+  ) + geom_treemap_subgroup2_border(color = 'grey70',size=2) + 
+  geom_treemap_subgroup_border(color='white')
+```
+```{r}
+ggplot(data = world_beer_ex_imp, aes(area = export_share, fill = region, subgroup = region, label = country, subgroup2 = country)) + 
+  geom_treemap() +
+  geom_treemap_text(fontface = 'italic', color = 'white', grow = TRUE) + 
+  guides(fill='none') + 
+  labs(
+    title = 'Share of Global Beer Exports',
+    caption = 'ATLAS of Economic Complexity (2017)'
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold.italic',size=20),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0)
+  ) + geom_treemap_subgroup2_border(color = 'grey70',size=2) + 
+  geom_treemap_subgroup_border(color='white')
+```
+```{r}
+ggplot(data=world_beer_ex_imp, aes(x=import_share,y=export_share, color=region)) + 
+  geom_point() + theme_solarized(light=FALSE) + 
+  scale_color_manual(values=c('yellow3','orchid','forestgreen','orange2','blue')) + guides(color='none') +  
+  annotate(
+    geom = 'text',
+    x = 30.55, y=5,
+    label = 'United States', 
+    size = 5, fontface = 'bold', color='orange2'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = 4.1, y=27,
+    label = 'Mexico',
+    size = 5, fontface = 'bold', color='orange2'
+  ) + 
+  labs(
+    title = 'Import Share VS. Export Share of Countries',
+    x = 'Import Share',
+    y = 'Export Share',
+    caption = 'ATLAS of Economic Complexity (2017)'
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold.italic',size=20, color='white'),
+    axis.title.x = element_text(face = 'bold.italic',size=10, color='white'),
+    axis.title.y = element_text(face = 'bold.italic',size=10, color='white'),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0)
+  ) 
+```
+```{r}
+ggplot(data=brew_year, aes(x=year, y=breweries)) + geom_line() + theme_bw() + 
+  annotate(
+    geom = 'text',
+    x=1920, y=3000, 
+    label ="Prohibition",
+    fontface = 'bold',
+    hjust=0
+  ) +
+  labs(
+    title='Permitted Breweries in America Over the Years',
+    x = '',
+    y = '# of Breweries',
+    caption = 'Brewers Association'
+  ) +
+  theme(
+    plot.title = element_text(face='bold',size=20),
+    axis.title.x = element_text(face='bold.italic', size=14),
+    axis.title.y = element_text(face='bold.italic', size=14),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0)
+  ) + geom_segment(aes(x=1925, y=200, xend=1925, yend=2800)) + scale_x_continuous(breaks=seq(1870, 2020, 10)) + 
+  scale_y_continuous(breaks = seq(0,6000,500))
+```
+```{r}
+usa_brew = left_join(usa, brew_capita, by='region')
+```
+```{r}
+ggplot(data=usa_brew, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group, fill=breweriescapita), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'lightgreen',high = 'darkgreen') + 
+  theme_map() + 
+  labs(
+    title = "Breweries per Capita in the US",
+    subtitle = "By US States (2016)",
+    caption = "Brewers Association (2016)",
+    fill = "Breweries per Capita"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=8, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  )
+```
+```{r}
+vermont = map_data("county", "vermont")
+```
+```{r}
+ggplot(data=vermont, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group), fill='#8de34b',color='#040d19') + coord_quickmap() +
+  geom_point(
+    data = vermont_brew, 
+    aes(x=longitude, y=latitude), 
+    fill='#255202',
+    color = '#4f0109',
+    shape = 21, 
+    size = 3
+  ) + theme_map()+ 
+  labs(
+    title = "Breweries in Vermont",
+    subtitle = 'Vermont Most Breweries per Capita',
+    caption = 'Brewers Association (2016)'
+  ) + theme(
+    plot.title = element_text(face = 'bold',size=18),
+    plot.subtitle = element_text(size=10),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+  )
+```
+The United States of America loves its beer. The sheer amount of beer the United States imports in a class of its own. Taking a look at the first treemap and the scatterplot illustrates this perfectly. The treemap shows the gargantuan difference between the imports of US and other countries around the world. Interestingly, although the US imports a lot of beer it does not export quite as much. The second treemap shows this as the US is smaller than the likes of Mexico, Netherlands, and Belgium. The majority of countries typically export less than they import and this becomes apparent if you look at the scatterplot.
+
+Now what if we focus on the US entirely. We can create a cloropleth and a line plot to show breweries per capita and permitted breweries respectively. There has been a steep increase of breweries in the US from 1990 to 2020. Events like the Prohibition Era put an end to permitted brewing in the US. Now to more recent times, we can look at where these breweries are. By looking at the chloropleth map of the US, the majority of breweries are in the Pacific Northwest and Northeast. It turns out the state that takes the title of most breweries is Vermont. The one of the smallest states is a beer powerhouse.
+

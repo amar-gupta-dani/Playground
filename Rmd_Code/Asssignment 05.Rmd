@@ -1,0 +1,40 @@
+---
+title: "Assignment 05"
+author: "Amar Dani"
+date: "11/3/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+zillow <- read_csv('/Users/sandeep/Downloads/R\ Code/zillow_sample.csv')
+```
+```{r}
+ggplot(data=zillow, aes(x=sqft, y=price, color=bed)) + geom_point() + theme_bw() +  scale_color_gradient(low='black',high='green')+
+  labs(
+    title= 'Square Feet, Bedrooms, and the Price of 30 houses on Zillow',
+    subtitle = "Square Feet mapped against the Price and the color corresponds to Bedrooms",
+    x = 'Square Feet',
+    y = 'Price ($)',
+    caption = 'Source: https://zillow.com',
+    color= 'Bedrooms'
+  ) + scale_y_continuous(labels = c('200,000', '400,000', '600,000', '800,000', ' 1,000,000')) + geom_smooth(method=lm,se=FALSE, color='black')
+```
+2. There is a strong, positive (strength, direction) correlation between Square Footage of a house and the Price of the house. This means an increase in square footage means the price of the house will also increase. The trend can be decribed as linear (linearity) as it follows a line with positive slope closely. There are few execeptions such as the house with 4000 sqft and has a price of $1,000,000, significantly more than the amount suggested by the best fit line and its counterparts. The number of bedrooms does not seem to have a strong correlation with price or square feet. In the ranges of 2000-3000 sqft and 400,000 and 600,000 dollars, there are houses with 2,3, and 4 bedrooms. On the extreme end, houses with 4,000+ sqft have 2,3 bedrooms while some have 6. It is important for these ranges, the price vary and thus we can conclude there is a weak correlation between price and bedrooms as well. 
+```{r}
+ggplot(data=zillow, aes(x=sqft, y=price, color=bed, size=age)) + geom_point() + theme_bw() +  scale_color_gradient(low='black',high='green')+
+  labs(
+    title= 'Square Feet, Bedrooms, and the Price of 30 houses on Zillow',
+    subtitle = "Square Feet mapped against the Price and the color corresponds to Bedrooms",
+    x = 'Square Feet',
+    y = 'Price ($)',
+    caption = 'Source: https://zillow.com',
+    size = 'Age of House',
+    color = 'Bedrooms'
+  ) + scale_y_continuous(labels = c('200,000', '400,000', '600,000', '800,000', ' 1,000,000'))
+```
+4. For the most part, the older houses have lower prices and lower square footage. However, it is hard to discern whether square footage or age plays a more significant role in determining the price. Looking on the higher end, the most expensive and largest houses are old, 20-40 years old. It reasonable to conclude there is a weak correlation between age and price.
+
+Other variables that effect houses prices would be location (it is qualitative though), yard space, type of house (categorical).

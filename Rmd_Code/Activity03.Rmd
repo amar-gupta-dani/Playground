@@ -1,0 +1,60 @@
+---
+title: "Activity 03"
+author: "Amar Dani"
+date: "9/15/22"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+```
+```{r}
+library(readr)
+body_temp <- read_csv("/Users/sandeep/Downloads/R\ Code/bodytemp.csv")
+```
+```{r}
+ggplot(data=body_temp, aes(x=temp)) + geom_histogram(binwidth=1)
+```
+```{r}
+ggplot(data=body_temp, aes(x=points)) + 
+  geom_histogram(binwidth=5)
+```
+```{r}
+library(readr)
+cardinals <- read_csv("/Users/sandeep/Downloads/R\ Code/cardinal.csv")
+```
+```{r}
+ggplot(data=cardinals, aes(x=number_cardinals)) + geom_histogram(binwidth=275)
+```
+The distribution is asymmetric and skewed to the right. It seems to be unimodal. The typical number of cardinals observed is around 500 cardinals in a year. The data is clustered around 0-1000 and then plateaus afterwards. 
+```{r}
+ggplot(data=cardinals, aes(x=number_cardinals)) +
+  geom_histogram(binwidth=275, color="tomato", fill="blanchedalmond")
+```
+```{r}
+mean(cardinal$number_cardinals)
+median(cardinal$number_cardinals)
+
+```
+```{r}
+typical <- read_csv("/Users/sandeep/Downloads/R\ Code/typical.csv")
+```
+```{r}
+ggplot(data=typical, aes(x=A))+geom_histogram(binwidth = 1)
+```
+Perfectly symmetrical, it is a pyramid. 
+```{r}
+mean(typical$A, na.rm=TRUE)
+median(typical$A, na.rm=TRUE)
+
+```
+The mean, median and mode are all the same.
+```{r}
+ggplot(data=typical, aes(x=B))+geom_histogram(binwidth = 2)
+```
+The distribution is skewed to the left. 
+```{r}
+mean(typical$B, na.rm=TRUE)
+median(typical$B, na.rm=TRUE)
+```
+The mode is 8.75. The values vary, however most are around 7.0 - 10.0. The median and mean are quite similar meaning the data points such as 0.75 and 2.75 are outliers and the vast majority of data is in a confined range. This creates a asymmetric, unimodal distribution and a peak at 8.75. 

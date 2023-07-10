@@ -1,0 +1,49 @@
+---
+title: "Activity 13"
+author: "Amar Dani"
+date: "10/27/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(mosaic)
+library(ggthemes)
+```
+1. I would predict that an increase in expenditure leads to increase in average SAT score. Teachers are motivated to work more for higher pay, better facilities, and more programs for students are enabled by increases in expenditure. Though it may not change the average SAT score too much as population and the number of school districts may have an effect.
+
+```{r}
+ggplot(data=SAT, aes(x=expend, y=sat)) + geom_point()
+```
+3. The scatterplot does not seem to follow a linear trend. The points are clustered and all over the place, especially to the left. Accordingly, the strength is very weak and there does not seem to be a direct correlation. It seems the scatterplot seems to follow a weak, negative slope.
+
+4. No, the states with the highest SAT scores have some of the lowest expenditures. This is different than what I thought initially.
+
+5. Smaller states may spend per student. Maybe states with small student populations may not have lower SAT scores 'drag' the average SAT score down.
+
+```{r}
+ggplot(data=SAT, aes(x=expend, y=sat, color=frac)) + geom_point() + scale_color_gradient(low='navy',high='skyblue')
+```
+8. There appears to be 2 groups of states. The upper group of navy points tend to have a small percentage of their students take the SAT, here the trend can be described with a line with positive slope and moderate correlation. For the other group, these states have a large proportion of their population take the SAT, once again, the trend can be described by a line with positive, and strong correlation. Thus we can say that an increase in expenditure tends to the increase the average SAT score of the state.
+
+```{r}
+ggplot(data=SAT, aes(x=expend, y=sat, color=frac)) + geom_point() + scale_color_gradient(low='orange',high='darkred')
+```
+```{r}
+ggplot(data=SAT, aes(x=expend, y=sat, color=frac)) + geom_point() +    
+  scale_color_gradient(low='orange',high='darkred') + 
+  labs(
+    title='Effect of Expenditure on Average SAT Score', 
+    subtitle = 'Expenditure on Education and Average SAT score by state',
+    x='Expenditure of State on Education', 
+    y='Average SAT Score',
+    color='Percentage who took SAT',
+    caption ='Source: Mosaic SAT Dataset'
+) + theme_bw() +
+  theme(
+  plot.title = element_text(face='bold',size=18),
+  plot.subtitle = element_text(color='black',size=12),
+  axis.title.x = element_text(face='bold.italic',size=10),
+  axis.title.y = element_text(face='bold.italic',size=10),
+  plot.caption = element_text(color='grey70',face='italic',size=8,hjust=0),
+  panel.border = element_rect(color='black', fill=NA))
+```

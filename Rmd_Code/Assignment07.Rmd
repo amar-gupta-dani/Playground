@@ -1,0 +1,103 @@
+---
+title: "Assignment 07"
+author: "Amar Dani"
+date: "12/07/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(raster)
+
+msp <- read.csv("/Users/sandeep/Downloads/Minneapolis_Special_Points.csv")
+```
+```{r}
+mn_neighborhoods = shapefile("/Users/sandeep/Downloads/R\ Code/Minneapolis_Neighborhoods.shp")
+```
+```{r}
+mn_neighborhoods.data = fortify(mn_neighborhoods)
+head(mn_neighborhoods.data)
+```
+```{r}
+ggplot(data=mn_neighborhoods.data, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group), fill='#edf3fc', color='#000000') + coord_quickmap() +
+  theme_map() + 
+  geom_point(
+    data = msp, 
+    aes(x=Longitude, y=Latitude),
+    shape = 15,
+    fill='#255202',
+    color = '#000000',
+    size = 4
+  )  + coord_cartesian(xlim = c(-93.29,-93.225), ylim = c(44.94,45)) + 
+  labs(
+    title = "Places Special to Me in Minneapolis",
+    subtitle = 'Locations around Minneapolis which I Remember being Special and Unique',
+    caption = 'Minneapolis Open Data (2022)'
+  ) + theme(
+    plot.title = element_text(face = 'bold',size=18),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.275, y= 44.975,
+    label = 'Minnesota Orchestra Hall', 
+    size = 3, fontface = 'bold', color = 'orangered'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.277, y=44.9617,
+    label = 'Minnesota Institute of Art',
+    size = 3, fontface = 'bold', color = 'orangered'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.285, y=44.968,
+    label = 'Walker Art\n Center',
+    size = 3, fontface = 'bold', color = 'orangered'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.268, y=44.97,
+    label = 'Minneapolis \n Convention Center',
+    size = 3, fontface = 'bold'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.2534, y=44.9785,
+    label = 'Stone Arch Bridge',
+    size = 3, fontface = 'bold'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.2322, y=44.9685,
+    label = 'The Market \n at Malcolm Yards',
+    size = 3, fontface = 'bold'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -93.2419, y=44.9998,
+    label = 'Waterbury Building',
+    size = 3, fontface = 'bold', color = 'red'
+  )
+```
+The locations I have in this list are:
+
+<ol>
+  <li> Minnesota Orchestra Hall </li>
+  <li> Minnesota Institute of Art </li>
+  <li> Walker Art Center </li>
+  <li> Minneapolis Convention Center </li>
+  <li> Minnesota Stone Arch Bridge </li>
+  <li> The Market at Malcolm Yards </li>
+  <li> Waterbury Building </li>
+</ol>
+
+At the Art Museums and the Orchestra Hall, I saw lots of cool art and music. Some of the most **memorable** art installations were the Spoonbridge and Cherry, a Jazz Concert at the Orchestra Hall, and a live orchestra playing the movie score for E.T. (*the movie was running in the back*). There have been many memorable events I've attended at the Minneapolis Convention Center: concerts, competitions, and festivals. These 4 locations are clustered together. There are 3 other locations I've highlighted across the river. At the Stone Arch Bridge I saw the July 4th Fireworks there several times. The coolest I've seen were a waterfall of fireworks similar to the photo. [The Market at Malcolm Yards](https://malcolmyards.market/) is a really cool restaurant kinda places. They have a bunch of cuisines from around the world and there lots of different stores to choose from. The last place is the Waterbury Building which I've played lots and lots of chess tournaments.
+
+![Stone Arch Bridge](/Users/sandeep/Downloads/R\ Code/stonearch_fireworks.jpg)
+
+
+
+  

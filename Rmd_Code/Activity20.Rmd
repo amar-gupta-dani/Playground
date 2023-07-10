@@ -1,0 +1,56 @@
+---
+title: "Activity 20"
+author: "Amar Dani"
+date: "11/21/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(maps)
+library(dplyr)
+```
+```{r}
+landmarks <- read.csv("/Users/sandeep/Downloads/R\ Code/LandmarkIVisited.csv")
+world_map <- map_data("world")
+```
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group = world_map$group, fill='#4d4d4d', color='#6d6d6d') + 
+  geom_point(
+    data = landmarks, 
+    aes(x=Latitude, y=Longitude),
+    fill='#e31010',
+    color = '#040d19',
+    shape = 21, 
+    size = 2.5)
+```
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group = world_map$group, fill='#4d4d4d', color='#6d6d6d') + 
+  geom_point(
+    data = landmarks, 
+    aes(x=Latitude, y=Longitude),
+    fill='#e31010',
+    color = '#040d19',
+    shape = 21, 
+    size = 3) + theme_map() + 
+  labs(
+    title = 'Famous Landmarks I Have Visited'
+  ) + theme(plot.title = element_text(face = 'bold',size =18, hjust=0.5)) + 
+  annotate(
+    geom = 'text',
+    x = 170, y=36,
+    label = 'Ashikaga \n Flower Park', 
+    size = 3, fontface = 'bold'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -20, y=-25,
+    label = 'Christ \n the Redeemer',
+    size = 3, fontface = 'bold'
+  )
+```
+These are some of the famous landmarks I have been fortunate enough to visit. I including some natural, significant building, and ancient wonders/landmarks. Ashikaga Flower Park is one of the most stunning flower parks you can ever witness. They do an amazing job with the lights to make the numerous Wisteria trees glow and emit an ethereal essence. I also pointed out Christ the Redeemer as I believe the pictures do not do it justice. The sheer size of the statue in addition to the fact it is located on the highest parts of Rio de Janeiro baffles me. 
+
+![Ashikaga](/Users/sandeep/Downloads/R\ Code/wisteria_trees.jpeg)

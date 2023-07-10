@@ -1,0 +1,89 @@
+---
+title: "Activity 16"
+author: "Amar Dani"
+date: "11/7/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+```
+```{r}
+mvs <- read.csv("/Users/sandeep/Downloads/R\ Code/motor-vehicle-safety.csv")
+```
+```{r}
+ggplot(data=mvs, aes(x=year, y=miles_driven)) + geom_line()
+```
+```{r}
+ggplot(data=mvs, aes(x=year, y=miles_driven)) + geom_line() + 
+  labs(
+    x = '',
+    y = 'Miles driven each year (millions)',
+    title = 'Miles driven by Cars in the U.S. Each Year',
+    caption = 'Source: Department of Transportation'
+  ) + theme_bw() + 
+  scale_x_continuous(breaks=seq(1960, 2020, 10))
+```
+```{r}
+ggplot(data = subset(mvs, !is.na(injured)), aes(x=year, y=injured)) + geom_line() + 
+  labs(
+    x = '',
+    y = 'People Injured each year (per 100 million miles driven)',
+    title = 'Individuals Injured in the U.S. Each Year',
+    caption = 'Source: Department of Transportation'
+  ) + theme_bw() + 
+  theme(
+    axis.title.y = element_text(size=8)
+  ) + scale_x_continuous(breaks=seq(1960, 2020, 5))
+```
+5. The steep decrease in injuries (from 1990 to 2010) due to several safety laws passed during the timeframe of 1991 and 2004. During this time, front crash tests were required, rear-belt seatbelt laws were passed, side crash tests were implemented, dual air bags were required after 1999, and the NHTSA created safety ratings to inform buyers. For the most part, after 2010, the # of injuries per 100 million miles has remained relatively flat.
+```{r}
+ggplot(data = mvs, aes(x=year, y=fatalities)) + geom_line() + 
+  labs(
+    x = '',
+    y = 'Deaths in a Vehicle each year (per 100 million miles driven)',
+    title = 'Deaths in a Vehicle in the U.S. Each Year',
+    caption = 'Source: Department of Transportation'
+  ) + theme_bw() + 
+  theme(
+    axis.title.y = element_text(size=8)
+  ) + scale_x_continuous(breaks=seq(1960, 2020, 10))
+```
+```{r}
+ggplot(data = mvs, aes(x=year, y=fatalities)) + geom_line() + 
+  labs(
+    x = '',
+    y = 'Deaths in a Vehicle each year (per 100 million miles driven)',
+    title = 'Deaths in a Vehicle in the U.S. Each Year',
+    caption = 'Source: Department of Transportation'
+  ) + theme_bw() + 
+  theme(
+    axis.title.y = element_text(size=8)
+  ) + scale_x_continuous(breaks=seq(1960, 2020, 10)) + annotate(
+  geom = 'text',
+  x=1980, y = 5,
+  label ="In 1966 the National Traffic and Motor Vehicle Safety act was passed. \n One of the laws required the front seats have a two-point seatbelt in 1968.",
+  hjust=0.1,
+  size = 3
+  ) + geom_segment(aes(x = 1975, y = 5, xend = 1969, yend = 5), arrow = arrow(length = unit(0.25, "cm"))) + annotate(
+  geom = 'text',
+  x=1985, y = 3.9,
+  label ="Front Crash Tests are required (1995)",
+  hjust=0.1,
+  size = 3
+  ) + geom_segment(aes(x = 1990, y = 3.75, xend = 1995, yend = 2), arrow = arrow(length = unit(0.25, "cm"))) + annotate(
+  geom = 'text',
+  x=2006, y = 3.4,
+  label ="Dual air bags are required (1999)",
+  hjust=0.1,
+  size = 3
+  ) + geom_segment(aes(x = 2010, y = 3.3, xend = 2000, yend = 1.6), arrow = arrow(length = unit(0.25, "cm"))) + annotate(
+  geom = 'text',
+  x=1970, y = 1.25,
+  label ="Rear-seat belt laws were passed (1991)",
+  hjust=0.1,
+  size = 3
+  ) + geom_segment(aes(x = 1987, y = 1.35, xend = 1991, yend = 1.7), arrow = arrow(length = unit(0.25, "cm")))
+```
+

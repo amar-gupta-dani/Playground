@@ -1,0 +1,67 @@
+---
+title: "Activity 10"
+author: "Amar Dani"
+date: "10/18/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+stem_women <- read_csv("/Users/sandeep/Downloads/R\ Code/women-stem.csv")
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income)) + geom_point()
+```
+1/2. Linearity: they seem to follow a line with a slope around -1/25. Most of the points follow the trend for every 0.25 increase in proportion of women graduates, the income decreases by 1,000.
+Slope: Downward/Negative
+Strength: It is weak and there seems to be a lot of 'noise' and outliers.
+
+3/4. The higher the proportion of women graduates, the lower the median income.
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category)) + geom_point()
+```
+5. It seems there vertical bands of colors. The left-most band is Engineering which has the highest median income. Next, computers & mathematics, biology and life science, phyiscal science, and the lowest median income is Health. 
+
+6. Based on the data, it would a reasonable conclusion to say the STEM majors favored by women tend to have loer median incomes.
+
+7. Need for certain STEM major and any biases in the workplace. 
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income)) + geom_point() + theme_dark()
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category)) + geom_point() + theme_solarized(light=FALSE)
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category)) + geom_point() + theme_solarized(light=FALSE) + labs(x='Proportion of Women', y='Income in Thousands', title='Exploring the Incomes of Women in STEM', subtitle = 'Proportion of Women graduating with each Major and their Incomes', caption='source: American Community Survey 2010-2012')
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category, label=Major)) + geom_point() + theme_solarized(light=FALSE) + geom_text(hjust=0,vjust=0)
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category, label=Major)) + geom_point() + theme_solarized(light=FALSE) + geom_text(aes(label=ifelse(Income>60,as.character(Major),'')),hjust=0,vjust=0)
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, color=Category, label=Major)) + geom_point() + 
+theme_solarized(light=FALSE) + 
+geom_text(
+    label=stem_women$Major, 
+    nudge_x = 0.25, nudge_y = 0.25, 
+    check_overlap = T)
+```
+```{r}
+ggplot(data=stem_women, aes(x=Women, y=Income, label=Major)) + geom_point(aes(shape=Category, color=Category)) + 
+theme_solarized(light=FALSE) + 
+labs(
+  x='Proportion of Women', y='Income in Thousands', title='Exploring the Incomes of Women in STEM', subtitle = 'Proportion of Women graduating with each Major and their Incomes', caption='source: American Community Survey 2010-2012')
+```
+```{r, fig.width=9}
+ggplot(data=stem_women, aes(x=Women, y=Income)) + geom_point() + 
+annotate(geom="label",x=0.6,y=100,label="Nursing is the highest paying STEM major in the Health category. \n The median salary for nurses is $62,000 less than the median salary for Petroleum Engineers")
+```
+```{r, fig.width=9}
+ggplot(data=stem_women, aes(x=Women, y=Income)) + geom_point() + 
+annotate(geom="label",x=0.6,y=100,label="Nursing is the highest paying STEM major in the Health category. \n The median salary for nurses is $62,000 less than the median salary for Petroleum Engineers") + annotate("segment", x = 0.6, xend = 0.88, y = 95, yend = 50, colour = "red", size = 2, arrow = arrow())
+```
+

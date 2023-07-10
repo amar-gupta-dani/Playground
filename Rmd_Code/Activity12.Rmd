@@ -1,0 +1,94 @@
+---
+title: "Activity 12"
+author: "Amar Dani"
+date: "10/25/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+world <- read_csv("/Users/sandeep/Downloads/R\ Code/world-data.csv")
+```
+1. This is an example of an observational data set because it doesn't require the specific actions of an individual. The data regarding each of the countries can be aggregated without the country's involvement. We are observing the specific variables in each country, not manipulating.
+
+2.A country
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy)) + geom_point()
+```
+4. The scatterplot demostrates a weak linearity, perhaps an exponential function may be a closer fit. If we were to fit a line to the scatterplot, the strength of the correlation is weak. The slope however will definitely be negative, suggesting an increase in fertility rate will indicate a lower life expectancy in that country.
+
+5. As fertility rate increases, the life expectancy tends to decreases which is indicative of a negative slope.
+
+6. Countries with low fertility rates tend to also have high life expectancies.
+
+7. Population may have a weak correlation with life expectancy. There may be a strain on resources, medical infrastructure, and several other factors important to life expectancy.
+
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy, color=region)) + geom_point() + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00'))
+```
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy, color=region)) + geom_point() + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00')) + labs(
+  title='Population Aging around the World',
+  subtitle='Relationship between Fertility  Rate and Life Expectancy by region',
+  color= '',
+  x = 'Fertility Rate',
+  y = 'Life Expectancy',
+  caption = 'Source: https://www.census.gov/'
+)
+```
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy, color=region)) + geom_point() + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00')) + labs(
+  title='Population Aging around the World',
+  subtitle='Relationship between Fertility  Rate and Life Expectancy by region',
+  color= '',
+  x = 'Fertility Rate',
+  y = 'Life Expectancy',
+  caption = 'Source: https://www.census.gov/'
+) +
+  theme(
+    plot.title=element_text(size=20),
+    plot.subtitle=element_text(color='grey70'),
+    plot.caption = element_text(color='grey70',face='italic',size=8,hjust=0),
+    panel.border = element_rect(color='black', fill=NA))
+  )
+```
+12. From highest life expectancy to lowest: Europe, Asia, Americas, Africa
+
+13. From lowest fertiility to highest: Europe, Asia, Americas, Africa.
+
+14.Asia and Europe tend to have the highest life expectancies. However, it should noted there are several laggards in the Asian region which have very low life expectancies. Americas are 3rd region in terms of life expectancy with the majority clustered around 70-80. Africa has the lowest life expectancies and has lots of variation. Africa has many of the countries with the lowest life expectancies but some African countries ahve life expectancies in the 70s.
+
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy,size=population, color=region)) + geom_point() + labs(size='Country Population') + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00'))
+```
+17. Countries with larger populations tend to have lower fertility rates.
+
+18. Larger population countries tend to have higher life expectancies
+
+19. The most populous countries are Asian.
+
+20. No, some of the largest countries (by population) have lower life expectancies than other countries in Asia and Europe. The largest countries have life expectancies around 70, while other countries have higher life expectancies even though they are smaller.
+
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy,size=population, color=region)) + geom_point() + labs(size='Country Population', caption='size indicates population') + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00')) + theme(plot.caption=element_text(size=8,hjust=0,face='italic')) +
+annotate(geom = 'text', x=2.0, y=79.8, label ="USA") + guides(size='none')
+```
+Final Plot:
+```{r}
+ggplot(data=world, aes(x=fertility_rate, y=life_expectancy, color=region, size=population)) + geom_point() + scale_color_manual(values = c('#00D5E9','#FF5872','#FFE700','#7FEB00')) + labs(
+  title='Population Aging around the World',
+  subtitle='Relationship between Fertility  Rate and Life Expectancy by Region and Population \n (Indicated by Size)',
+  color= '',
+  x = 'Fertility Rate',
+  y = 'Life Expectancy',
+  caption = 'Source: https://www.census.gov/'
+) +
+  theme(
+    plot.title=element_text(size=20),
+    plot.subtitle=element_text(color='grey70', size=11),
+    plot.caption = element_text(color='grey70',face='italic',size=8,hjust=0),
+    panel.border = element_rect(color='black', fill=NA)) +
+annotate(geom = 'text', x=2.0, y=79.8, label ="USA") + guides(size='none')
+```

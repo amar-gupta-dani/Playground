@@ -1,0 +1,32 @@
+---
+title: "Assignment 03"
+author: "Amar Dani"
+date: "10/4/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+```
+```{r}
+nice <- read_csv("/Users/sandeep/Downloads/R\ Code/nice-ride.csv")
+```
+```{r}
+tail(nice)
+```
+```{r}
+ggplot(data=nice, aes(x=duration)) + geom_histogram(binwidth=500, color="black", fill='slategrey') + scale_x_continuous(breaks=seq(0,13000,1000)) + labs(x='Duration of rides in seconds') + geom_vline(aes(xintercept=mean(nice$duration),color="yellow")) + geom_vline(aes(xintercept=median(nice$duration),color="turquoise"))
+```
+```{r}
+mean(nice$duration)
+median(nice$duration)
+```
+The histogram is skewed to the right and is unimodal. The variability is quite high as the vast majority of data points lie within the range of 0-2500 but there are several outliers. Thus the median is a better measure of typical which is bus ride of 841 seconds. We can conclude the majority of trips are 0-40 minutes long while far and few have trips hours long. The largest value is 500 seconds long.
+![Nice Dock](/Users/sandeep/Downloads/R\ Code/niceridedock.jpeg)
+
+```{r}
+ggplot(data=nice, aes(x=duration, fill=start_campus)) + geom_histogram(binwidth=500,color='black', position='identity')+ scale_x_continuous(breaks=seq(0,13000,1000)) + labs(x='Duration of rides in seconds')
+```
+```{r}
+ggplot(data=nice, aes(x=duration, fill=start_campus)) + geom_histogram(binwidth=500,color='black', position='identity') + scale_x_continuous(breaks=seq(0,13000,1000)) + labs(x='Duration of rides in seconds')+ facet_wrap(~start_campus, nrow=2)
+```
+There is a relationship between whether the ride started on campus and the duration. If the ride started on campus, the ride should be expected to be shorter, typically the length of a couple of minutes. If it didn't start on-campus, the rides are longer, 10-15 minutes and even longer. This is even where outliers can be seen of hours long trips. 

@@ -1,0 +1,78 @@
+---
+title: "Activity 06"
+author: "Amar Dani"
+date: "9/29/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+
+```
+```{r}
+starwars_csv <- read.csv("/Users/sandeep/Downloads/R\ Code/starwars.csv")
+```
+
+1. Black hair
+2. Mirial
+3. 20 or so female characters
+```{r}
+ggplot(data = starwars_csv, aes(x=hair_color)) + geom_bar() + theme(axis.text.x = element_text(size=6))
+```
+```{r}
+ggplot(data = starwars_csv, aes(x=gender)) + geom_bar() + theme(axis.text.x = element_text(size=10))
+```
+There are 19 female characters listed in the csv file
+```{r}
+flevels <- levels(starwars_csv$gender)
+flevels
+ggplot(data = starwars_csv, aes(x=gender)) + geom_bar() + theme(axis.text.x = element_text(size=10)) + scale_x_discrete(limits=flevels)
+```
+I'm not sure why flevels is NULL. I wasn't sure how to fix it.
+```{r}
+poll_award_csv <- read_csv("/Users/sandeep/Downloads/R\ Code/poll_award_sex.csv")
+```
+
+```{r}
+ggplot(data=poll_award_csv, aes(x=sex)) + geom_bar()
+```
+```{r}
+ggplot(data=poll_award_csv, aes(x=award, fill=award)) + geom_bar() + labs(x='Favorite Award')
+```
+Each award is now color-coded when award is mapped to fill.
+```{r}
+ggplot(data=poll_award_csv, aes(x=award, fill=sex)) + geom_bar() + labs(x='Favorite Award')
+```
+```{r}
+ggplot(data=poll_award_csv, aes(x=award, fill=sex)) + geom_bar(aes(y=(..count..)/sum(..count..))) + ylim(0,0.6) + labs(x='Favorite Award', y='Proportion')
+```
+Changng the ylim changes the upper bound of y on the bar chart.
+```{r}
+ggplot(data=poll_award_csv, aes(x=award, fill=sex)) + geom_bar(aes(y=(..count..)/sum(..count..)), color = 'black',position='dodge')  + labs(x='Favorite Award', y='Proportion') + ylim(0,0.5)
+```
+It is easier to compare the preferred awards within a certain gender and also to see the genr breakdown of who prefers a certain award. When the bars are stacked on top of each other it is harder to see gender breakdown. One disadvantage is that you cannot compare the absolute difference between two awards very easily.
+
+It seems the majority of men and women believe that the Nobel Prize is the highest prize. There were far less men surveyed, however the proportion of men who chose the Nobel Prize over the Olympic Gold Medal and the Academy Award is stark and perhaps greater than the difference within the women. If a value is large, it means it is more coveted, and if it is small it is less coveted.
+
+Nearly 45% of women and 50% of all participants believe the Nobel Prize is the most coveted prize. For each of the categories, women represent of a larger portion of those surveyed. Between the Academy Award and Olympic Gold, the amount of women and men who choose those are equal. The only exception is the large tower/bar that is the women who chose the Nobel Prize.
+```{r}
+midus <- read_csv('/Users/sandeep/Downloads/R\ Code/midus.csv')
+
+ggplot(data=midus, aes(x=mhealth, fill=phealth)) + geom_bar()  + labs(x='Mental Health') 
+```
+```{r}
+library(dplyr)
+```
+```{r}
+midus_bar <- ggplot(filter(midus, !is.na(mhealth), !is.na(phealth)), aes(x=mhealth,fill=phealth)) + geom_bar()
+
+midus_bar
+```
+```{r}
+miduslevels = c('POOR', 'FAIR', 'GOOD', "VERY GOOD", 'EXCELLENT')
+miduslevels
+```
+```{r}
+ggplot(filter(midus, !is.na(mhealth), !is.na(phealth)), aes(x=mhealth,fill=phealth)) + geom_bar(aes(y=(..count..)/sum(..count..))) + labs(x='Mental Health', y='Proportion') + ylim(0,0.5)
+
+```
+I tried to reorder according to mental health but it didn't work.

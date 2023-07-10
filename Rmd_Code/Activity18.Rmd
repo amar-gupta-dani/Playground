@@ -1,0 +1,85 @@
+---
+title: "Activity 18"
+author: "Amar Dani"
+date: "11/14/22"
+output: html_notebook
+---
+```{r}
+library(maps)
+library(ggplot2)
+```
+```{r}
+original <- read.csv("/Users/sandeep/Downloads/R\ Code/wonders-original.csv")
+```
+```{r}
+ggplot(data=original, aes(x=Longitude, y=Latitude)) + geom_point() + 
+  geom_text(
+  aes(label=c('Colossus of Rhodes',
+              'Great Pyramid of Giza',
+              'Hanging Gardens of Babylon',
+              'Lighthouse of Alexandria',
+              'Mausoleum of Halicarnassus',
+              'Statue of Zeus at Olympia',
+              'Temple of Artemis at Ephesus'
+  )))
+```
+3. The Statue of Zeus is the only wonder isolated from the rest, whereas the Temple of Artemis, the Mausoleum, and the Colossus are very close together. Additionally, the Lighthouse and Great Pyramid are close together as well. 
+
+```{r}
+world_map = map_data("world")
+```
+```{r}
+head(world_map)
+```
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon()
+```
+5. Since we are using polygon, geom tries to connect all the points so we get a bunch of lines and filled in spaces.
+
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group=world_map$group, fill='#a6e2ff', color='#919a9f') + geom_point(data = original, aes(x=Longitude, y=Latitude), color = '#df2832')
+```
+8. In geom_polygon, color changes outline, fill changes fill, in geom_point color changes dot colors.
+
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group=world_map$group, fill='#919a9f', color='#a6e2ff') + 
+  coord_cartesian(xlim = c(-125,-60), ylim = c(26,51))
+```
+```{r}
+wnatural <- read.csv("/Users/sandeep/Downloads/R\ Code/wonders-new.csv")
+wmodern <- read.csv("/Users/sandeep/Downloads/R\ Code/wonders-modern.csv")
+```
+
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group=world_map$group, fill='#919a9f', color='#a6e2ff')  +    
+  geom_point(data = original, aes(x=Longitude, y=Latitude), color = '#df2832')+
+  geom_point(data = wnatural, aes(x=Longitude, y=Latitude), color = '#fc90e3')+
+  geom_point(data = wmodern, aes(x=Longitude, y=Latitude), color = '#e37439')
+```
+
+13. There are quite a few in NA/SA, couple in Asia and Europe, with the majority being in the Middle East. Beyond the northern tip of Africa, there are no wonders in the rest of Africa, Australia, and Antarctica. 
+
+```{r}
+epsyhs <- read.csv("/Users/sandeep/Downloads/R\ Code/epsy-1261-high-school.csv")
+```
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group=world_map$group, fill='#919a9f', color='#a6e2ff') + 
+  coord_cartesian(xlim = c(-125,-60), ylim = c(26,51)) + geom_point(data = epsyhs, aes(x=longitude, y=latitude))
+```
+15. Everyone is from the U.S. with the majority coming from the Midwest.
+```{r}
+epsynew <- read.csv("/Users/sandeep/Downloads/R\ Code/epsynew.csv")
+library(ggthemes)
+```
+```{r}
+ggplot(data = world_map, aes(x=long, y=lat)) +
+  geom_polygon(group=world_map$group, fill='#919a9f', color='#a6e2ff') + 
+  coord_cartesian(xlim = c(-100,-60), ylim = c(35,51)) + geom_point(data = epsynew, aes(x=longitude, y=latitude)) + theme_map()
+```
+
+

@@ -1,0 +1,96 @@
+---
+title: "Activity 15"
+author: "Amar Dani"
+date: "11/3/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+mn_fci <- read.csv("/Users/sandeep/Downloads/R\ Code/minnesota-fci.csv")
+```
+```{r}
+ggplot(data=mn_fci, aes(x=season, y=fci, color=team)) + geom_point() + scale_color_manual(values = c('#236192', '#D31145', '#4F2683', '#154734'))
+```
+```{r}
+ggplot(data=mn_fci, aes(x=season, y=fci, color=team)) + geom_line() +   scale_color_manual(values = c('#236192', '#D31145', '#4F2683', '#154734')) +  guides(color='none') + 
+annotate(
+  geom = 'text',
+  x=2010, y=325, 
+  label ="Minnesota Wild",
+  color='#154734',
+  hjust=0
+  )+
+annotate(
+  geom = 'text',
+  x=2008, y=450, 
+  label ="Minnesota Vikings",
+  color='#4F2683', 
+  hjust=0
+  )+
+annotate(
+  geom = 'text',
+  x=2007, y=150, 
+  label ="Minnesota Twins",
+  color='#D31145', 
+  hjust=0
+  )+
+annotate(
+  geom = 'text',
+  x=2000, y=200, 
+  label ="Minnesota Timberwolves",
+  color='#236192', 
+  hjust=0
+  )
+```
+4. There was an NHL Lockout in which all games were canceled. 
+
+5. Since the the lines are rising, this suggests the cost of attending games of all Minnesotan teams have increased over time. 
+
+6. The Minnesota Twins has seen increases in cost for fans, however, it has tapered off in recent years. The Minnesota Vikings have the highest cost through 2000-2015, they have also had significant incrases for prices for fans. The Timberwolves also have increases in costs for fans across 2000-2015 but for the period 2005-2010, the costs decreased.
+```{r}
+nhl_fci <- read.csv('/Users/sandeep/Downloads/R\ Code/nhl-fci.csv')
+```
+```{r}
+wild <- read.csv('/Users/sandeep/Downloads/R\ Code/Wild_FCI.csv')
+```
+
+```{r}
+ggplot(data=nhl_fci, aes(x=Year, y=FCI, group=Team)) + geom_line(color='lightgrey') + geom_line(data=wild, color='darkred')
+```
+9. The Wild's FCI is average for the league. The cost has not risne nearly as much as other teams in the league.
+
+```{r}
+ggplot(data=nhl_fci, aes(x=Year, y=FCI, group=Team)) + geom_line(color='lightgrey', alpha=0.6) + geom_line(data=wild, color='darkred') + theme_bw() + annotate(
+  geom = 'text',
+  x=2004, y=200, 
+  label ="NHL Lockout",
+  hjust=0, angle=90
+  ) +
+labs(
+  title='FCI for Teams in the NHL'
+) +
+theme(
+  plot.title = element_text(face='bold',size=20),
+  axis.title.x = element_text(face='bold.italic', size=14),
+  axis.title.y = element_text(face='bold.italic', size=14)
+) 
+```
+```{r}
+ggplot(data=nhl_fci, aes(x=Year, y=FCI, group=Team)) + geom_line(color='lightgrey', alpha=0.6) + geom_line(data=wild, color='darkred') + theme_bw() + annotate(
+  geom = 'text',
+  x=2003, y=500, 
+  label ="NHL Lockout",
+  hjust=0
+  ) +
+labs(
+  title='FCI for Teams in the NHL'
+) +
+theme(
+  plot.title = element_text(face='bold',size=20),
+  axis.title.x = element_text(face='bold.italic', size=14),
+  axis.title.y = element_text(face='bold.italic', size=14)
+) + geom_segment(aes(x=2004, y=250, xend=2004, yend=480), linetype='dotted')
+```

@@ -1,0 +1,33 @@
+---
+title: "Activity 09"
+author: "Amar Dani"
+date: "10/13/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+```
+```{r}
+senate <- read.csv("/Users/sandeep/Downloads/R\ Code/senators-2021.csv")
+```
+```{r}
+ggplot(data=senate, aes(x=Sex, fill=Party)) + geom_bar(position='dodge') + labs(x="Gender of Senators", y="Number of Senators in Category", fill='Party Affiliation') + scale_fill_manual(values=c('#01253D','#FBDE8E','#E7000C'))
+```
+The majority of senators are males. Within the male senators, there is only one Independent senators and the majority of male senators are Republican. Considering the female senators, there are no Independents, while there are more Democratic female sneators than Republican female senators. 
+```{r}
+ggplot(data=senate, aes(x=Age)) + geom_bar(position='dodge', color='skyblue',fill='black') + labs(x="Age of Senators", y="Number of Senators in Category") + scale_x_continuous(breaks=seq(30,90,5))
+```
+```{r}
+mean(senate$Age)
+median(senate$Age)
+```
+```{r}
+ggplot(data=senate, aes(x=Age)) + geom_bar(position='dodge', color='skyblue',fill='black') + labs(x="Age of Senators", y="Number of Senators in Category") + scale_x_continuous(breaks=seq(30,90,5)) + geom_vline(xintercept=median(senate$Age),color='red')
+```
+```{r}
+ggplot(data=senate, aes(x=Age, fill=Sex)) + geom_bar() + labs(x="Age of Senators", y="Number of Senators in Category", fill='') + scale_x_continuous(breaks=seq(30,90,5)) + scale_fill_manual(values=c('#7d31b0','#006ea1'))
+```
+All senators are above the age of 30, some even as old as 85. Many of the female senators are between the ages of 60 to 75. The majority of all senators fall within the range of 47-75.
+
+![MN Senator](/Users/sandeep/Downloads/R\ Code/amyklobuchar.jpeg)
+

@@ -1,0 +1,72 @@
+---
+title: "Assignment 06"
+author: "Amar Dani"
+date: "11/14/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(RColorBrewer)
+library(dplyr)
+```
+```{r}
+whotb <- read.csv("/Users/sandeep/Downloads/R\ Code/WHO-TB.csv")
+```
+```{r}
+ggplot(data=whotb, aes(x=Year,y=TB,color=Country)) + geom_line() + guides(color='none') 
+```
+I had to use guides to remove the legend otherwise you couldn't see the graph
+```{r}
+ggplot(data=whotb, aes(x=Year,y=TB,color=Country)) + geom_line() + guides(color='none') + facet_wrap(~Region)
+```
+3. The vast majority of countries in all regions are experiencing fewer deaths due to tuberculosis. There are many countries in which the number of tuberculosis deaths has been near 0 since 2000. On the other hand, there are countries which have seen tuberculosis deaths plummet in their country.
+
+```{r}
+seatbnk <- read.csv("/Users/sandeep/Downloads/R\ Code/SEA-TB-NK.csv")
+```
+```{r}
+whotb_sea <- filter(whotb, Region == 'South-East Asia')
+head(whotb_sea)
+```
+```{r}
+
+ggplot(data=whotb_sea, aes(x=Year,y=TB, color=Country)) + geom_line() + guides(color='none') +theme_bw()+ 
+  labs(
+  x='',
+  y='Deaths (per 100,000)',
+  title= 'Deaths from Tuberculosis',
+  subtitle = 'Inspecting Data from South-East Asian Countries during 2000-2015',
+  caption = 'Source: WHO'
+) + scale_color_brewer(palette = 'Dark2') + 
+  theme(
+    plot.title = element_text(face='bold',size=18),
+    axis.title.y = element_text(face='bold.italic'),
+    plot.caption = element_text(face='italic',color='grey70',size=8,hjust=0)
+  )
+```
+5. All countries except for North Korea has seen their tuberculosis deaths per 100,000 people decrease or stay level. Myanmar had a very death toll from tuberculosis in 2000 which has steeply decreased and now has a death toll higher than its South East Asian counterparts but lower than its 2000 levels.
+```{r}
+ggplot(data=whotb_sea, aes(x=Year, y=TB, color=Country)) + geom_line(alpha=0.35) + geom_line(data=seatbnk, color='darkred') + guides(color='none') +theme_bw()+ 
+  labs(
+  x='',
+  y='Deaths (per 100,000)',
+  title= 'Deaths from Tuberculosis in South-East Asia',
+  subtitle = 'North Korea Highlighted in Red, data from 2000-2015',
+  caption = 'Source: WHO'
+) + 
+  annotate(
+  geom = 'text',
+  x=2013, y=70, 
+  label ="North Korea",
+  hjust=0,
+  color = 'darkred'
+) +
+  theme(
+    plot.title = element_text(face='bold',size=18),
+    axis.title.y = element_text(face='bold.italic'),
+    plot.caption = element_text(face='italic',color='grey70',size=8,hjust=0)
+  )
+```
+7. Some variables that many effect the death toll of tuberculosis is percentage of population vaccinated and availability of medical care: perhaps number of doctors per capita, hospital beds in a country, and even nearest hopsital.
+

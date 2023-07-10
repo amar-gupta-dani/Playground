@@ -1,0 +1,37 @@
+---
+title: "Assignment 01"
+author: "Amar Dani"
+date: "9/15/22"
+output: html_notebook
+---
+Using heights from the class the survey data. Was not entirely sure which data set to use.
+```{r}
+library(ggplot2)
+library(readr)
+class_data <- read_csv("/Users/sandeep/Downloads/R\ Code/Heights.csv")
+```
+```{r}
+head(class_data)
+```
+Head returns the first 6 cases in the data set. Tail is the opposite, returning the last 6 cases in the data set.
+
+# My Introduction
+
+## Some data about me
+- Born in Fairview Hospital
+- Born 12/07/05
+- Lived in EP my whole life
+- No siblings
+- Both of my parents of are Indian
+
+I am 16 years old right now and I will hopefully get my license soon. I **like** to collect currencies souvenir pens, and keychains (as well as planes and warships). My most prized possession is a _5 billion dollar bill_ from Zimbabwe (real) which I got from a taxi driver on my vacation there. SOme hobbies of mine are:
+
+1. Saxophone
+2. Piano
+3. Chess
+4. Badminton
+
+Link to my own website <http://amardani.com> 
+
+
+![Photo of Me](/Users/sandeep/Downloads/R\ Code/photoofme.jpeg)

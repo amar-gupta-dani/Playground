@@ -1,0 +1,125 @@
+---
+title: "Activity 17"
+author: "Amar Dani"
+date: "11/9/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+```{r}
+mnod <- read_csv('/Users/sandeep/Downloads/R\ Code/mn-drug-overdose-deaths.csv')
+```
+```{r}
+ggplot(data = mnod, aes(x=year, y=deaths, color=location)) + geom_line() + theme_bw() + scale_x_continuous(breaks = seq(2000,2018,2)) +
+  labs(
+    title = 'Number of Drug Overdose Deaths',
+    x = '',
+    y = 'Number of Deaths', 
+    subtitle = 'Statewide, 7-county Metro, Greater MN, MN residents, 2000-2018'
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=20),
+    plot.subtitle = element_text(color = 'grey70'),
+    axis.title.y = element_text(face='bold.italic')
+  ) + scale_color_manual(values = c('#A95AA1','#AE9C45','#052955')) +  guides(color='none') + 
+annotate(
+  geom = 'text',
+  x=2015.5, y=675, 
+  label ="Statewide",
+  color= '#052955',
+  hjust=0,
+  size = 3
+  )+
+annotate(
+  geom = 'text',
+  x=2015.5, y=400, 
+  label ="7-County Metro",
+  color='#AE9C45', 
+  hjust=0,
+  size = 3
+  )+
+annotate(
+  geom = 'text',
+  x=2015.5, y=180, 
+  label ="Greater MN",
+  color='#A95AA1',
+  hjust=0,
+  size = 3
+  )
+```
+```{r}
+mndd <- read_csv("/Users/sandeep/Downloads/R\ Code/mn-statewide-deaths-by-drug.csv")
+```
+```{r}
+mnopioid <- read_csv("/Users/sandeep/Downloads/R\ Code/mn-county-opioid-involved-overdose-deaths.csv")
+```
+```{r}
+ggplot(data=mndd, aes(x=year, y=deaths, color=drug)) + geom_line() + theme_bw() +
+  labs(
+    title = 'Deaths by Different Drugs',
+    subtitle = 'Deaths by 6 groups of Drugs in MN, from 2000 to 2018',
+    x='',
+    y= 'Number of Deaths',
+    color = 'Type of Drug'
+  )+ 
+  theme(
+    plot.title = element_text(face = 'bold',size=20),
+    plot.subtitle = element_text(color = 'grey70'),
+    axis.title.y = element_text(face='bold.italic')
+  ) + scale_color_manual(values = c('#5b5aa9','#bf9017','#25bf17','#bf2d17','#3617bf')) + scale_x_continuous(breaks = seq(2000,2018,2))
+```
+```{r}
+ggplot(data=mnopioid, aes(x=year, y=opioid_involved_overdose_deaths, color=county)) + geom_line() + guides(color='none')
+```
+```{r}
+shortopi <- read_csv("/Users/sandeep/Downloads/R\ Code/shortopi.csv")
+```
+```{r}
+ggplot(data = shortopi, aes(x=year, y=opioid_involved_overdose_deaths, color=county)) + geom_line() + theme_bw() + scale_x_continuous(breaks = seq(2000,2018,2)) +
+  labs(
+    title = 'Opioid Involved Overdose Deaths',
+    x = '',
+    y = 'Number of Deaths', 
+    subtitle = '4 Counties: Anoka, Hennepin, Ramsey, Yellow Medicine'
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=20),
+    plot.subtitle = element_text(color = 'grey70'),
+    axis.title.y = element_text(face='bold.italic')
+  ) + scale_color_manual(values = c('#BA0D0D','#0d64ba','#b031de', '#d6c41c')) +  guides(color='none') + 
+annotate(
+  geom = 'text',
+  x=2012, y=125, 
+  label ="Hennepin",
+  color= '#0d64ba',
+  hjust=0,
+  size = 4
+  )+
+annotate(
+  geom = 'text',
+  x=2011, y=20, 
+  label ="Anoka",
+  color='#BA0D0D', 
+  hjust=0,
+  size = 4
+  )+
+annotate(
+  geom = 'text',
+  x=2014.5, y=45, 
+  label ="Ramsey",
+  color='#b031de',
+  hjust=0,
+  size = 4
+  )+
+annotate(
+  geom = 'text',
+  x=2014.5, y=10, 
+  label ="Yellow Medicine",
+  color='#d6c41c',
+  hjust=0,
+  size = 4
+  )
+```
+5. Unfortunately, for all 4 counties thre has been an increase in opioid-related overdose deaths. Hennepin county saw the steepest increase and also has the highest opioid overdose deaths in the state. For the most part, Anoka and Ramsey have had similar amounts of deaths with some exceptions such as 2002, 2005, 2014-2017. Thankfully, both Hennepin and Ramsey saw a decline in opioid related deaths from 2017 to 2018. Lastly, there is Yellow Medicine which, luckily, often sees 0 opioid overdose deaths with only 4 years in which they reported deaths. 

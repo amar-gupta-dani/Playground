@@ -1,0 +1,174 @@
+---
+title: "Activity 19"
+author: "Amar Dani"
+date: "11/16/22"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(maps)
+```
+```{r}
+rich_people <- read.csv("/Users/sandeep/Downloads/R\ Code/richest-person-state.csv")
+usa = map_data("state")
+```
+```{r}
+head(usa, 10)
+```
+```{r}
+ggplot(data=usa, aes(x=long, y=lat)) + 
+  geom_polygon(aes(group=group), fill="darkgray", color='grey') +
+  geom_point(aes(x=-93.4708, y=44.8547), color='white') + 
+  geom_point(
+    data = rich_people, 
+    aes(x=longitude, y=latitude), 
+    color = '#730500',
+    shape = 21, 
+    alpha = 0.5
+  )
+```
+```{r}
+ggplot(data=usa, aes(x=long, y=lat)) + 
+  geom_polygon(aes(group=group), fill="darkgray", color='grey') +
+  geom_point(aes(x=-93.4708, y=44.8547), color='white') + 
+  geom_point(
+    data = rich_people, 
+    aes(x=longitude, y=latitude, size=net_worth_millions), 
+    color = '#730500',
+    shape = 21, 
+    alpha = 0.5,
+  ) + guides(size='none')+ 
+  annotate(
+    geom = 'text',
+    x = -117.5, y=48.25,
+    label = 'Jeff Bezos'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -102, y=42,
+    label = 'Warren Buffet'
+  )
+```
+```{r}
+ggplot(data=usa, aes(x=long, y=lat)) + 
+  geom_polygon(aes(group=group), fill="darkgray", color='grey') +
+  geom_point(aes(x=-93.4708, y=44.8547), color='white') + 
+  geom_point(
+    data = rich_people, 
+    aes(x=longitude, y=latitude, size=net_worth_millions), 
+    color = '#730500',
+    shape = 21, 
+    alpha = 0.5,
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -117.5, y=48.25,
+    label = 'Jeff Bezos'
+  ) + 
+  annotate(
+    geom = 'text',
+    x = -102, y=42,
+    label = 'Warren Buffet'
+  ) + 
+  labs(
+    title = 'Wealthiest Individual in Each State',
+    subtitle = 'Size shows the comparative wealth with others in the list',
+    caption = 'Source: Forbes, 2019',
+    size = 'Net Worth (millions)'
+  ) + theme_map() +
+  theme(
+    plot.title = element_text(face = 'bold',size=18),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.position = c(0.85,0.07),
+    legend.title = element_text(size=6, face = 'bold.italic')
+  )
+```
+```{r, fig.width=12}
+ggplot(data=usa, aes(x=long, y=lat)) + 
+  geom_polygon(aes(group=group), fill="darkgray", color='grey') +
+  geom_point(aes(x=-93.4708, y=44.8547), color='white') + 
+  geom_point(
+    data = rich_people, 
+    aes(x=longitude, y=latitude, size=net_worth_millions), 
+    color = '#730500',
+    shape = 21, 
+    alpha = 0.75,
+  ) + scale_size_area() + theme_map()
+  
+```
+```{r}
+mn = map_data("county", "minnesota")
+head(mn,10)
+```
+```{r}
+ggplot(data=mn, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group)) + coord_quickmap()
+```
+```{r}
+mn_attractions <- read.csv("/Users/sandeep/Downloads/R\ Code/mn-attractions.csv")
+```
+```{r}
+ggplot(data=mn, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group), fill='#08263b',color='#040d19') + coord_quickmap() +
+  geom_point(
+    data = mn_attractions, 
+    aes(x=Longitude, y=Latitude), 
+    fill='#ffcc00',
+    color = '#040d19',
+    shape = 21, 
+    size = 3
+  ) + theme_map()+ 
+  labs(
+    title = "World-Largest Attractions",
+    subtitle = 'Minnesota has a lot of them for some reason',
+    caption = 'Source: Roadside America'
+  ) + theme(
+    plot.title = element_text(face = 'bold',size=18),
+    plot.subtitle = element_text(size=10),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+  )
+```
+14. A lot in Greater MN, especially around Moorhead, in the county of Otter Tail (odd name).
+
+```{r}
+Ramsey = mn%>%filter(subregion=="ramsey")
+Hennepin = mn%>%filter(subregion=="hennepin")
+```
+```{r}
+ggplot(data = Ramsey, aes(x=long, y=lat)) + geom_polygon(aes(group=group))
+```
+```{r}
+food_shelves <- read.csv("/Users/sandeep/Downloads/R\ Code/mn-food-shelves.csv")
+```
+```{r}
+ggplot(data = Hennepin, aes(x=long, y=lat)) + 
+  geom_polygon(
+    aes(group=group),
+    fill = '#f0f1f1',
+    color = '#040d19'
+  ) +
+  geom_point(
+    data = food_shelves,
+    aes(x=long, y=lat),
+    size = 3,
+    shape = 21,
+    fill = '#759fbd',
+    color = '#040d19'
+  ) + coord_quickmap() + theme_map() +
+  labs(
+    title = "Food Shelves in Hennepin County",
+    subtitle = 'Locations of Food Shelves across Hennepin County',
+    caption = 'Source: Hennepin County Open Data'
+  ) + theme(
+    plot.title = element_text(face = 'bold',size=18),
+    plot.subtitle = element_text(size=10),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+  )
+```
+19. Not entirely, the  vast majority of food shelves are located on the East/Southeast, by Minneapolis. For cities in the west or northwest areas of Hennepin, there are not many food shelves.
+
+20. Minneapolis is there and the majority of Minnesotans live in close proximity or in Minneapolis.
+

@@ -1,0 +1,150 @@
+---
+title: "Activity 21"
+date: "11/28/22"
+author: "Amar Dani"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(maps)
+```
+```{r}
+mn_demo <- read.csv("/Users/sandeep/Downloads/R\ Code/mn-demographics.csv")
+```
+```{r}
+ggplot(data=mn, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group)) + coord_quickmap()
+```
+```{r}
+head(mn, 10)
+```
+```{r}
+head(mn_demo, 5)
+```
+5. Just subregion
+
+```{r}
+county_demo <- left_join(mn, mn_demo, by="subregion")
+```
+```{r}
+head(county_demo, 5)
+```
+```{r}
+ggplot(data=county_demo, aes(x=long, y=lat)) +
+  geom_polygon(aes(group=group, fill=per_poverty), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'white',high = 'darkred') + 
+  theme_map() +
+  labs(
+    title = "Percentage of County Population Living in Poverty",
+    subtitle = "For Minnesotan Counties (2013)",
+    caption = "Minnesota Department of Health (2013)",
+    fill = "Percentage"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=10, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  )
+```
+5. It seems the lowest levels of poverty directly around the Twin Cities. In Ramsey and Hennepin, the poverty levels are higher, but their neighbors have significantly lower levels of poverty.
+```{r}
+ggplot(data=county_demo, aes(x=long, y=lat, label = subregion)) +
+  geom_polygon(aes(group=group, fill=per_poverty), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'white',high = 'darkred') + 
+  theme_map() +
+  labs(
+    title = "Percentage of County Population Living in Poverty",
+    subtitle = "For Minnesotan Counties (2013)",
+    caption = "Minnesota Department of Health (2013)",
+    fill = "Percentage"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=10, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  ) + geom_text(size=2.5)
+```
+6. There is a lot of overlap because of the sheer number of Minnesotan Counties. Also, a lot of the counties' names are repeated because they are repeated in the dataset.
+
+```{r}
+cnames = aggregate(cbind(long, lat) ~ subregion, data = county_demo, FUN = function(x) mean(range(x)))
+```
+```{r}
+head(cnames)
+```
+```{r}
+ggplot(data=county_demo, aes(x=long, y=lat, label = subregion)) +
+  geom_polygon(aes(group=group, fill=per_poverty), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'white',high = 'darkred') + 
+  theme_map() +
+  labs(
+    title = "Percentage of County Population Living in Poverty",
+    subtitle = "For Minnesotan Counties (2013)",
+    caption = "Minnesota Department of Health (2013)",
+    fill = "Percentage"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=10, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  ) + geom_text(data = cnames, size=2.5)
+```
+```{r}
+county_names <- left_join(cnames, mn_demo, by="subregion")
+```
+```{r}
+head(county_names)
+```
+```{r}
+ggplot(data=county_demo, aes(x=long, y=lat, label = subregion)) +
+  geom_polygon(aes(group=group, fill=per_poverty), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'white',high = 'darkred') + 
+  theme_map() +
+  labs(
+    title = "Percentage of County Population Living in Poverty",
+    subtitle = "For Minnesotan Counties (2013)",
+    caption = "Minnesota Department of Health (2013)",
+    fill = "Percentage"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=10, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  ) + geom_text(data = subset(county_names, per_poverty<7), size=2.5)
+```
+```{r}
+ggplot(data=county_demo, aes(x=long, y=lat, label = subregion)) +
+  geom_polygon(aes(group=group, fill=am_indian), color='grey') + 
+  coord_quickmap() +
+  scale_fill_gradient(low = 'white',high = 'darkred') + 
+  theme_map() +
+  labs(
+    title = "Number of Indians Living in a County",
+    subtitle = "For Minnesotan Counties (2013)",
+    caption = "Minnesota Department of Health (2013)",
+    fill = "Population"
+  ) + 
+  theme(
+    plot.title = element_text(face = 'bold',size=15),
+    plot.subtitle = element_text(size=12),
+    plot.caption = element_text(size=8, face='italic',color='grey70', hjust=0),
+    legend.title = element_text(size=10, face = 'bold.italic'),
+    legend.position = c(0.85,0.07),
+  ) + geom_text(data = subset(county_names,am_indian>4000), size=2.5)
+```
+

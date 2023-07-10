@@ -1,0 +1,75 @@
+---
+title: "Activity 02"
+author: "Amar Dani"
+date: "9/13/22"
+output:
+  html_notebook:
+    df_print: paged
+  pdf_document: default
+---
+Load packages
+```{r}
+library(ggplot2)
+```
+Import Dataset
+```{r}
+library(readr)
+text_messages <- read_csv("/Users/sandeep/Downloads/R\ Code/text_messages.csv")
+```
+Make the Histogram
+```{r}
+ggplot(data=text_messages, aes(x=number_texts)) +
+  geom_histogram()
+```
+Smaller Bins
+```{r}
+ggplot(data=text_messages, aes(x=number_texts)) +
+  geom_histogram(binwidth=14)
+```
+Binwidth 1
+```{r}
+ggplot(data=text_messages, aes(x=number_texts)) +
+  geom_histogram(binwidth=1)
+```
+Binwidth 100
+```{r}
+ggplot(data=text_messages, aes(x=number_texts)) +
+  geom_histogram(binwidth=100)
+```
+Binwidth 10
+```{r}
+ggplot(data=text_messages, aes(x=number_texts)) +
+  geom_histogram(binwidth=10)
+```
+The histograms all illustrate a distinct asymmetrical shape and it is skewed to the right. No matter the size of the bins, the vast majority of data is clustered towards the left. The most typical answer is 0-10 texts.
+
+```{r}
+library(readr)
+heights_set <- read_csv("/Users/sandeep/Downloads/R\ Code/Heights.csv")
+```
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram()
+```
+Testing Different sized bins
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram(binwidth=10)
+```
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram(binwidth=5)
+```
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram(binwidth=1)
+```
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram(binwidth=3)
+```
+```{r}
+ggplot(data = Heights, aes(x=Heights_var)) +
+  geom_histogram(binwidth=2)
+```
+The data is asymmetric and slightly skewed to the left. A typical answers would be between the heights of 66-70.There are some outliers such as someone who is 50" tall, however most of the data is clustered between 60-70. Ideally, more data would help make a more satisfying cliam however we can say majority of the heights in EPSY 1261 fall between 65-70 inches tall.
